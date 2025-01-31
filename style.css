@@ -113,6 +113,25 @@ button {
     z-index: 1000;
     display: none;
 }
+/* ボタンの表示制御 */
+#tbButton, #tButton {
+    display: none; /* 初期状態では非表示 */
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: none;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.show {
+    display: block; /* 'show'クラスがついているボタンのみ表示 */
+}
 
 /* ボタンが表示されたときの状態 */
 button.show {
