@@ -7,7 +7,7 @@ const markerStatus = document.getElementById('markerStatus');
 const canvas = document.createElement('canvas');
 const ctx = canvas.getContext('2d');
 
-// 動画のパスを指定（tとtbに分けたパス）
+// 動画のパスを指定
 const videoPaths = {
     city1: ['tb/human_tb.mov', 't/human_t.mov'],
     city2: ['tb/dog_tb.mov', 't/dog_t.mov'],
@@ -27,10 +27,9 @@ const videoPaths = {
     ocean4: ['tb/seaturtle_tb.mov', 't/seaturtle_t.mov']
 };
 
-
 // 再生中のフラグと現在の動画インデックス
 let isPlaying = false;
-let currentVideoIndex = 0;
+let currentVideoIndex = 1; // 先にtbを再生
 
 // 動画を事前に読み込む関数
 const preloadVideos = () => {
@@ -74,7 +73,6 @@ function showPopupVideo(videoPathsArray) {
     if (isPlaying) return;
 
     isPlaying = true;
-    currentVideoIndex = 0;
     const video = popupVideo;
 
     function playVideo(index) {
@@ -87,6 +85,9 @@ function showPopupVideo(videoPathsArray) {
 
     loadingCircle.style.display = 'block';
     videoPopup.style.display = 'none';
+
+    // 初期表示でtbを再生
+    playVideo(currentVideoIndex);
 
     video.oncanplaythrough = () => {
         loadingCircle.style.display = 'none';
@@ -101,10 +102,14 @@ function showPopupVideo(videoPathsArray) {
         }, 500);
     };
 
-    playVideo(currentVideoIndex);
-
+    // 動画のクリックで切り替え
     video.addEventListener('click', () => {
-        currentVideoIndex = (currentVideoIndex + 1) % videoPathsArray.length;
+        // currentVideoIndexが1（tb）なら、次は0（t）に切り替え
+        if (currentVideoIndex === 1) {
+            currentVideoIndex = 0;
+        } else {
+            currentVideoIndex = 1;
+        }
         playVideo(currentVideoIndex);
     });
 
