@@ -1,4 +1,4 @@
-let currentVideoIndex = 0;
+let currentVideoIndex = 0; // 初期状態を't'に設定
 let popupVideo = document.getElementById('popupVideo');
 let currentMarkerId = null;
 let videoIsPlaying = false;
@@ -98,3 +98,6 @@ function onMarkerDetected(markerId) {
     popupVideo.load();
     popupVideo.play();
 }
+
+// 初期表示時にボタンを設定
+updateButtonVisibility();
