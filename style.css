@@ -25,10 +25,10 @@
     pointer-events: none; /* ヒントがタップを妨げないように */
     z-index: 1000; /* 他の要素の上に表示 */
 }
+
 #tapHint.show {
     opacity: 1;
 }
-
 
 /* 横画面時にサファリのタブを隠す */
 @media screen and (orientation: landscape) {
@@ -95,4 +95,26 @@
     border: none;
     padding: 10px;
     cursor: pointer;
+}
+
+/* ボタン全般のスタイル */
+button {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1000;
+    display: none;
+}
+
+/* ボタンが表示されたときの状態 */
+button.show {
+    display: block;
 }
