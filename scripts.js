@@ -7,24 +7,24 @@ const markerStatus = document.getElementById('markerStatus');
 const canvas = document.createElement('canvas');
 const ctx = canvas.getContext('2d');
 
-// 動画のパスを指定
+// 動画のパスを指定（tとtbに分けたパス）
 const videoPaths = {
-    city1: ['human_tb.mov', 'human_t.mov'],
-    city2: ['dog_tb.mov', 'dog_t.mov'],
-    city3: ['cat_tb.mov', 'cat_t.mov'],
-    city4: ['crow_tb.mov', 'crow_t.mov'],
-    grass1: ['giraffe_tb.mov', 'giraffe_t.mov'],
-    grass2: ['meerkat_tb.mov', 'meerkat_t.mov'],
-    grass3: ['horse_tb.mov', 'horse_t.mov'],
-    grass4: ['kangaroo_tb.mov', 'kangaroo_t.mov'],
-    jungle1: ['gibbon_tb.mov', 'gibbon_t.mov'],
-    jungle2: ['bear_tb.mov', 'bear_t.mov'],
-    jungle3: ['ezorisu_tb.mov', 'ezorisu_t.mov'],
-    jungle4: ['deer_tb.mov', 'deer_t.mov'],
-    ocean1: ['penguin_tb.mov', 'penguin_t.mov'],
-    ocean2: ['seal_tb.mov', 'seal_t.mov'],
-    ocean3: ['seaotter_tb.mov', 'seaotter_t.mov'],
-    ocean4: ['seaturtle_tb.mov', 'seaturtle_t.mov']
+    city1: ['tb/human_tb.mov', 't/human_t.mov'],
+    city2: ['tb/dog_tb.mov', 't/dog_t.mov'],
+    city3: ['tb/cat_tb.mov', 't/cat_t.mov'],
+    city4: ['tb/crow_tb.mov', 't/crow_t.mov'],
+    grass1: ['tb/giraffe_tb.mov', 't/giraffe_t.mov'],
+    grass2: ['tb/meerkat_tb.mov', 't/meerkat_t.mov'],
+    grass3: ['tb/horse_tb.mov', 't/horse_t.mov'],
+    grass4: ['tb/kangaroo_tb.mov', 't/kangaroo_t.mov'],
+    jungle1: ['tb/gibbon_tb.mov', 't/gibbon_t.mov'],
+    jungle2: ['tb/bear_tb.mov', 't/bear_t.mov'],
+    jungle3: ['tb/ezorisu_tb.mov', 't/ezorisu_t.mov'],
+    jungle4: ['tb/deer_tb.mov', 't/deer_t.mov'],
+    ocean1: ['tb/penguin_tb.mov', 't/penguin_t.mov'],
+    ocean2: ['tb/seal_tb.mov', 't/seal_t.mov'],
+    ocean3: ['tb/seaotter_tb.mov', 't/seaotter_t.mov'],
+    ocean4: ['tb/seaturtle_tb.mov', 't/seaturtle_t.mov']
 };
 
 
