@@ -1,103 +1,99 @@
-let currentVideoIndex = 0; // 初期状態を't'に設定
-let popupVideo = document.getElementById('popupVideo');
-let currentMarkerId = null;
-let videoIsPlaying = false;
+const loadingCircle = document.getElementById('loadingCircle');
+const videoPopup = document.getElementById('videoPopup');
+const popupVideo = document.getElementById('popupVideo');
+const closeButton = document.getElementById('closeButton');
+const btnTb = document.getElementById('btnTb');
+const btnT = document.getElementById('btnT');
+const markerStatus = document.getElementById('markerStatus'); // 追加: マーカー検出中の表示
 
-// 動画パス（各マーカーごとに切り替え）
+// 動画のパスを指定
 const videoPaths = {
-    "city1": ["t/city1_t.mov", "tb/city1_tb.mov"],
-    "city2": ["t/city2_t.mov", "tb/city2_tb.mov"],
-    "city3": ["t/city3_t.mov", "tb/city3_tb.mov"],
-    "city4": ["t/city4_t.mov", "tb/city4_tb.mov"],
-    "grass1": ["t/grass1_t.mov", "tb/grass1_tb.mov"],
-    "grass2": ["t/grass2_t.mov", "tb/grass2_tb.mov"],
-    "grass3": ["t/grass3_t.mov", "tb/grass3_tb.mov"],
-    "grass4": ["t/grass4_t.mov", "tb/grass4_tb.mov"],
-    "jungle1": ["t/jungle1_t.mov", "tb/jungle1_tb.mov"],
-    "jungle2": ["t/jungle2_t.mov", "tb/jungle2_tb.mov"],
-    "jungle3": ["t/jungle3_t.mov", "tb/jungle3_tb.mov"],
-    "jungle4": ["t/jungle4_t.mov", "tb/jungle4_tb.mov"],
-    "ocean1": ["t/ocean1_t.mov", "tb/ocean1_tb.mov"],
-    "ocean2": ["t/ocean2_t.mov", "tb/ocean2_tb.mov"],
-    "ocean3": ["t/ocean3_t.mov", "tb/ocean3_tb.mov"],
-    "ocean4": ["t/ocean4_t.mov", "tb/ocean4_tb.mov"]
+    city1: ['tb/human_tb.mov', 't/human_t.mov'],
+    city2: ['tb/dog_tb.mov', 't/dog_t.mov'],
+    city3: ['tb/cat_tb.mov', 't/cat_t.mov'],
+    city4: ['tb/crow_tb.mov', 't/crow_t.mov'],
+    grass1: ['tb/giraffe_tb.mov', 't/giraffe_t.mov'],
+    grass2: ['tb/meerkat_tb.mov', 't/meerkat_t.mov'],
+    grass3: ['tb/horse_tb.mov', 't/horse_t.mov'],
+    grass4: ['tb/kangaroo_tb.mov', 't/kangaroo_t.mov'],
+    jungle1: ['tb/gibbon_tb.mov', 't/gibbon_t.mov'],
+    jungle2: ['tb/bear_tb.mov', 't/bear_t.mov'],
+    jungle3: ['tb/ezorisu_tb.mov', 't/ezorisu_t.mov'],
+    jungle4: ['tb/deer_tb.mov', 't/deer_t.mov'],
+    ocean1: ['tb/penguin_tb.mov', 't/penguin_t.mov'],
+    ocean2: ['tb/seal_tb.mov', 't/seal_t.mov'],
+    ocean3: ['tb/seaotter_tb.mov', 't/seaotter_t.mov'],
+    ocean4: ['tb/seaturtle_tb.mov', 't/seaturtle_t.mov']
 };
 
-// ボタンをクリックしたときの処理
-tbButton.addEventListener('click', () => {
-    currentVideoIndex = 1;  // "tb"を選択
-    updateButtonVisibility();
-    updateVideoSource();
-});
+// 再生中のフラグと現在の動画インデックス
+let isPlaying = false;
+let currentVideoIndex = 0;
 
-tButton.addEventListener('click', () => {
-    currentVideoIndex = 0;  // "t"を選択
-    updateButtonVisibility();
-    updateVideoSource();
-});
+// 動画を再生する関数
+function showPopupVideo(videoPathsArray) {
+    if (isPlaying) return;
 
-// ボタンの表示・非表示を更新
-function updateButtonVisibility() {
-    if (currentVideoIndex === 0) {
-        tbButton.classList.add('show');
-        tButton.classList.remove('show');
-    } else {
-        tbButton.classList.remove('show');
-        tButton.classList.add('show');
+    isPlaying = true;
+    currentVideoIndex = 0;
+    const video = popupVideo;
+
+    function playVideo(index) {
+        video.src = videoPathsArray[index];
+        video.load();
+        video.loop = true;
+        video.play();
     }
-}
 
-// 動画の更新
-function updateVideoSource() {
-    if (popupVideo && currentMarkerId) {
-        const videoPathsArray = videoPaths[currentMarkerId];
-        popupVideo.src = videoPathsArray[currentVideoIndex];
-        popupVideo.load();
-        popupVideo.play();
-    }
-}
+    loadingCircle.style.display = 'block';
+    videoPopup.style.display = 'none';
 
-// マーカーが検出されたとき
-function onMarkerDetected(markerId) {
-    currentMarkerId = markerId;  // 現在のマーカーIDを保存
-
-    // ローディング画面を表示
-    document.getElementById('loadingCircle').style.display = 'block';
-    
-    // 動画のロードと再生
-    const videoPathsArray = videoPaths[markerId];
-    popupVideo.src = videoPathsArray[currentVideoIndex];
-    popupVideo.load();
-    popupVideo.play();
-
-    // ローディング画面を非表示
-    popupVideo.oncanplay = function() {
-        document.getElementById('loadingCircle').style.display = 'none';
+    video.oncanplaythrough = () => {
+        loadingCircle.style.display = 'none';
+        videoPopup.style.display = 'block';
+        video.play();
     };
+
+    video.onerror = () => {
+        setTimeout(() => {
+            playVideo(currentVideoIndex);
+        }, 500);
+    };
+
+    playVideo(currentVideoIndex);
+    
+    closeButton.addEventListener('click', () => {
+        video.pause();
+        video.currentTime = 0;
+        videoPopup.style.display = 'none';
+        isPlaying = false;
+    });
 }
 
-// 動画が終了したときの処理
-popupVideo.onended = function() {
-    videoIsPlaying = false;
-    updateButtonVisibility();  // 動画終了後にボタンを再表示
-};
+// ボタンイベントリスナー
+btnTb.addEventListener('click', () => {
+    if (!isPlaying) {
+        showPopupVideo(videoPaths.city1); // 例えば city1 に対して
+    }
+});
 
-// マーカーの検出状態を表示
-const markerStatus = document.getElementById('markerStatus');
+btnT.addEventListener('click', () => {
+    if (!isPlaying) {
+        showPopupVideo(videoPaths.city1); // 例えば city1 に対して
+    }
+});
 
-function onMarkerDetected(markerId) {
-    markerStatus.innerText = `マーカー検出中: ${markerId}`;
-    markerStatus.style.display = 'block';
-    setTimeout(() => {
-        markerStatus.style.display = 'none';
-    }, 2000);
-
-    currentMarkerId = markerId;
-    const videoPathsArray = videoPaths[markerId];
-    popupVideo.src = videoPathsArray[currentVideoIndex];
-    popupVideo.load();
-    popupVideo.play();
+// マーカー検出中の表示
+function onMarkerDetected(isDetected) {
+    if (isDetected) {
+        markerStatus.innerText = "マーカー検出中...";
+        markerStatus.style.display = "block"; // マーカー検出中表示を表示
+    } else {
+        markerStatus.style.display = "none"; // マーカーが検出されない場合非表示
+    }
 }
 
-// 初期表示時にボタンを設定
-updateButtonVisibility();
+// 初期状態で tb の動画を再生
+window.addEventListener('load', () => {
+    showPopupVideo(videoPaths.city1); // 最初に tb 動画を再生
+});
