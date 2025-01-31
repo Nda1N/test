@@ -4,46 +4,45 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 60vmin;  /* 幅と高さをvminで設定 */
+    width: 60vmin;
     height: 60vmin;
-    border: 5px solid red;  /* 枠を赤に設定 */
-    background-color: transparent; /* 中は透明にする */
+    border: 5px solid red;
+    background-color: transparent;
     z-index: 999;
 }
 
-#tapHint {
+/* 動画切り替えボタン */
+#btnTb, #btnT {
     position: absolute;
-    top: 5%;
-    right: 10%;
-    background: rgba(255, 0, 0, 0.7);
+    top: 10%;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: rgba(0, 0, 0, 0.7);
     color: white;
-    padding: 8px 12px;
-    border-radius: 10px;
-    font-size: 14px;
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
-    pointer-events: none; /* ヒントがタップを妨げないように */
-    z-index: 1000; /* 他の要素の上に表示 */
+    border: none;
+    cursor: pointer;
+    z-index: 1001;
+    margin: 5px;
 }
-
-#tapHint.show {
-    opacity: 1;
+#btnTb {
+    left: 10%;
+}
+#btnT {
+    left: 20%;
 }
 
 /* 横画面時にサファリのタブを隠す */
 @media screen and (orientation: landscape) {
     body {
-        overflow: hidden; /* スクロールを無効にしてタブを隠す */
+        overflow: hidden;
     }
-    /* タブの色を無効にして画面全体をフルスクリーンにする */
     html, body {
         height: 100%;
         margin: 0;
         padding: 0;
     }
-    /* Safariのタブを隠すために、iOSのスクリーン向き変更を確保 */
     meta[name="apple-mobile-web-app-status-bar-style"] {
-        content: black-translucent; /* タブを隠すために設定 */
+        content: black-translucent;
     }
 }
 
@@ -59,7 +58,7 @@
     border-top: 5px solid #3498db;
     border-radius: 50%;
     animation: spin 1s linear infinite;
-    display: none; /* 初期状態で非表示 */
+    display: none;
 }
 
 @keyframes spin {
@@ -95,45 +94,4 @@
     border: none;
     padding: 10px;
     cursor: pointer;
-}
-
-/* ボタン全般のスタイル */
-button {
-    position: absolute;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 10px 20px;
-    background-color: rgba(0, 0, 0, 0.7);
-    color: white;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    z-index: 1000;
-    display: none;
-}
-/* ボタンの表示制御 */
-#tbButton, #tButton {
-    display: none; /* 初期状態では非表示 */
-    position: absolute;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: rgba(0, 0, 0, 0.7);
-    color: white;
-    border: none;
-    cursor: pointer;
-    z-index: 1000;
-}
-
-.show {
-    display: block; /* 'show'クラスがついているボタンのみ表示 */
-}
-
-/* ボタンが表示されたときの状態 */
-button.show {
-    display: block;
 }
